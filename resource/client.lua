@@ -4,6 +4,8 @@ local config = require 'config.client'
 local panning = false
 
 local usePanning = function(_, item)
+    if panning then return end
+
     if IsPedSwimming(cache.ped) then
         utils.notify(locale('error.swimming'), 'error')
         return
