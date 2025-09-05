@@ -62,7 +62,6 @@ lib.callback.register('mt_goldpanning:server:giveReward', function(source, slot)
             utils.setItemMetadata(src, slot, { durability = newDurability })
         end
     else
-        print('Setting initial durability', slot)
         utils.setItemMetadata(src, slot, { durability = 99 })
     end
 
