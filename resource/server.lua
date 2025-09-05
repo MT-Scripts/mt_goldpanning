@@ -1,7 +1,9 @@
 lib.locale()
 local config = require 'config.server'
 local utils = require 'modules.server'
-local panCooldowns = {}
+local locationCooldowns = {}
+local locationAttempts = {}
+local cooldowns = {}
 local COOLDOWN_SECONDS = 5
 
 local pickRarity = function()
@@ -47,8 +49,24 @@ RegisterNetEvent('mt_goldpanning:server:giveReward', function(slot)
     local src = source
     local item = utils.getItemBySlot(src, slot)
     local now = os.time()
+    local coords = GetEntityCoords(GetPlayerPed(src))
+    local locKey = string.format("%.1f_%.1f_%.1f", coords.x, coords.y, coords.z)
 
-    if panCooldowns[src] and (now - panCooldowns[src]) < COOLDOWN_SECONDS then return end
+    if cooldowns[src] and (now - cooldowns[src]) < COOLDOWN_SECONDS then return end
+
+    if locationCooldowns[locKey] and (now - locationCooldowns[locKey]) < (config.locationCooldown * 60) then
+        utils.notify(locale('error.location_cooldown'), 'error')
+        return
+    end
+
+    locationAttempts[locKey] = (locationAttempts[locKey] or 0) + 1
+    if locationAttempts[locKey] > config.maxPansPerLocation then
+        locationCooldowns[locKey] = now
+        locationAttempts[locKey] = 0
+        TriggerClientEvent('mt_goldpanning:client:notify', src, locale('error.location_cooldown'), 'error')
+        return
+    end
+
     if not (item and item.name == config.panningItem) then return end
 
     if item.metadata and item.metadata.durability then
@@ -81,5 +99,5 @@ RegisterNetEvent('mt_goldpanning:server:giveReward', function(slot)
         utils.addItem(src, rewardItem, rewardCount)
     end
 
-    panCooldowns[src] = now
+    cooldowns[src] = now
 end)

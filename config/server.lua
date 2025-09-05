@@ -1,4 +1,9 @@
 return {
+    ---@type number Cooldown time in minutes between locations
+    locationCooldown = 5,
+    ---@type number Maximum number of panning attempts per location
+    maxPansPerLocation = 3,
+
     ---@type number Durability percentage lost per uses
     durabilityPerUse = 1,
 

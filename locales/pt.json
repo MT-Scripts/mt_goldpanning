@@ -5,7 +5,8 @@
         "minigame_failed": "Falhaste o minigame...",
         "broken_tool": "A tua peneira está muito gasta...",
         "canceled": "Cancelado.",
-        "inventory_full": "O teu inventário está cheio..."
+        "inventory_full": "O teu inventário está cheio...",
+        "location_cooldown": "Esta localização parece estar muito vazia. Talvez devias mover-te para um local diferente."
     },
     "success": {
         "received": "Recebeste os items"

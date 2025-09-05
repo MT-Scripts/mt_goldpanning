@@ -5,7 +5,8 @@
         "minigame_failed": "You failed the minigame...",
         "broken_tool": "Your pan is too worn out...",
         "canceled": "Canceled.",
-        "inventory_full": "Your inventory is full..."
+        "inventory_full": "Your inventory is full...",
+        "location_cooldown": "This location seems to be too empty. Maybe move to a different spot."
     },
     "success": {
         "received": "You received the items"

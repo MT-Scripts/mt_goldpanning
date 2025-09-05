@@ -46,6 +46,7 @@ local usePanning = function(_, item)
     if not success then
         ClearPedTasks(cache.ped)
         DeleteEntity(prop)
+        panning = false
         utils.notify(locale('error.minigame_failed'), 'error')
         return
     end
