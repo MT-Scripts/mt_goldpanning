@@ -2,7 +2,7 @@ lib.locale()
 local utils = require 'modules.client'
 local config = require 'config.client'
 
-local usePanning = function(data, slot)
+local usePanning = function(_, item)
     if IsPedSwimming(cache.ped) then
         utils.notify(locale('error.swimming'), 'error')
         return
@@ -13,7 +13,7 @@ local usePanning = function(data, slot)
         return
     end
 
-    local durability = lib.callback.await('mt_goldpanning:server:checkDurability', false, slot)
+    local durability = lib.callback.await('mt_goldpanning:server:checkDurability', false, item.slot)
     if durability <= 0 then
         utils.notify(locale('error.broken_tool'), 'error')
         return
@@ -55,7 +55,7 @@ local usePanning = function(data, slot)
     local duration = math.random(config.progress.min, config.progress.max)
     local progress = utils.progressbar(locale('progress.panning'), duration, { move = true, car = true, combat = true }, {}, {})
     if progress then
-        local reward = lib.callback.await('mt_goldpanning:server:giveReward', false, slot)
+        local reward = lib.callback.await('mt_goldpanning:server:giveReward', false, item.slot)
         if reward then
             utils.notify(locale('success.received'))
         else

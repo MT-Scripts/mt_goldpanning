@@ -1,7 +1,7 @@
 local utils = {}
 
 utils.getItemBySlot = function(src, slot)
-   return exports.ox_inventory:GetItem(src, slot)
+   return exports.ox_inventory:GetSlot(src, slot)
 end
 
 utils.canCarryItem = function(src, item, count)

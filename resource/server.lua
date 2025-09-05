@@ -48,6 +48,7 @@ lib.callback.register('mt_goldpanning:server:giveReward', function(source, slot)
         return false
     end
 
+    lib.print.info(item.metadata)
     if item.metadata and item.metadata.durability then
         if item.metadata.durability <= 0 then
             utils.removeItem(src, item.name, slot)
@@ -55,6 +56,7 @@ lib.callback.register('mt_goldpanning:server:giveReward', function(source, slot)
         end
 
         local newDurability = item.metadata.durability - 1
+        print(newDurability)
         if newDurability <= 0 then
             utils.removeItem(src, item.name, slot)
             return false
@@ -62,12 +64,9 @@ lib.callback.register('mt_goldpanning:server:giveReward', function(source, slot)
             utils.setItemMetadata(src, slot, { durability = newDurability })
         end
     else
+        print('Setting initial durability', slot)
         utils.setItemMetadata(src, slot, { durability = 99 })
     end
-
-    local newDurability = (item.metadata and item.metadata.durability) and item.metadata.durability - 1 or 0
-    if newDurability < 0 then newDurability = 0 end
-    utils.setItemMetadata(src, slot, { durability = newDurability })
 
     local amount = math.random(config.itemsPerPanning.min, config.itemsPerPanning.max)
     for _ = 1, amount do
