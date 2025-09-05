@@ -1,5 +1,8 @@
+lib.locale()
 local config = require 'config.server'
 local utils = require 'modules.server'
+local panCooldowns = {}
+local COOLDOWN_SECONDS = 5
 
 local pickRarity = function()
     local roll = math.random(1, 100)
@@ -40,25 +43,24 @@ lib.callback.register('mt_goldpanning:server:checkDurability', function(source, 
     return 0
 end)
 
-lib.callback.register('mt_goldpanning:server:giveReward', function(source, slot)
+RegisterNetEvent('mt_goldpanning:server:giveReward', function(slot)
     local src = source
     local item = utils.getItemBySlot(src, slot)
+    local now = os.time()
 
-    local canPan = lib.callback.await('mt_goldpanning:client:checkCanPan', src)
-    if not canPan then return false end
-
-    if not (item and item.name == config.panningItem) then return false end
+    if panCooldowns[src] and (now - panCooldowns[src]) < COOLDOWN_SECONDS then return end
+    if not (item and item.name == config.panningItem) then return end
 
     if item.metadata and item.metadata.durability then
         if item.metadata.durability <= 0 then
             utils.removeItem(src, item.name, slot)
-            return false
+            return
         end
 
         local newDurability = item.metadata.durability - config.durabilityPerUse
         if newDurability <= 0 then
             utils.removeItem(src, item.name, slot)
-            return false
+            return
         else
             utils.setItemMetadata(src, slot, { durability = newDurability })
         end
@@ -69,13 +71,15 @@ lib.callback.register('mt_goldpanning:server:giveReward', function(source, slot)
     local amount = math.random(config.itemsPerPanning.min, config.itemsPerPanning.max)
     for _ = 1, amount do
         local rewardItem, rewardCount = getRandomReward()
-        if not rewardItem or rewardCount <= 0 then return false end
+        if not rewardItem or rewardCount <= 0 then return end
 
         if not utils.canCarryItem(src, rewardItem, rewardCount) then
-            return false
+            TriggerClientEvent('mt_goldpanning:client:notify', src, locale('error.inventory_full'), 'error')
+            return
         end
 
         utils.addItem(src, rewardItem, rewardCount)
     end
-    return true
+
+    panCooldowns[src] = now
 end)

@@ -26,6 +26,7 @@ utils.notify = function(message, type)
         duration = 5000
     })
 end
+RegisterNetEvent('mt_goldpanning:client:notify', utils.notify)
 
 utils.minigame = function(difficulty, keys)
     return lib.skillCheck(difficulty, keys)

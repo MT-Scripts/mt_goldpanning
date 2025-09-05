@@ -58,12 +58,7 @@ local usePanning = function(_, item)
     local duration = math.random(config.progress.min, config.progress.max)
     local progress = utils.progressbar(locale('progress.panning'), duration, { move = true, car = true, combat = true }, {}, {})
     if progress then
-        local reward = lib.callback.await('mt_goldpanning:server:giveReward', false, item.slot)
-        if reward then
-            utils.notify(locale('success.received'))
-        else
-            utils.notify(locale('error.inventory_full'), 'error')
-        end
+        TriggerServerEvent('mt_goldpanning:server:giveReward', item.slot)
     else
         utils.notify(locale('error.canceled'), 'error')
     end
@@ -73,10 +68,3 @@ local usePanning = function(_, item)
     panning = false
 end
 exports('usePanning', usePanning)
-
-lib.callback.register('mt_goldpanning:client:checkCanPan', function()
-    if IsPedSwimming(cache.ped) then return false end
-    if not IsEntityInWater(cache.ped) then return false end
-    if not panning then return false end
-    return true
-end)
