@@ -1,6 +1,7 @@
 lib.locale()
 local utils = require 'modules.client'
 local config = require 'config.client'
+local panning = false
 
 local usePanning = function(_, item)
     if IsPedSwimming(cache.ped) then
@@ -31,7 +32,7 @@ local usePanning = function(_, item)
     PlaceObjectOnGroundProperly(prop)
     FreezeEntityPosition(prop, true)
 
-    local panning = true
+    panning = true
     CreateThread(function()
         while panning do
             PlaySoundFromEntity(GetSoundId(), "UNDER_WATER_COME_UP", prop, '', true, 0)
@@ -70,3 +71,10 @@ local usePanning = function(_, item)
     panning = false
 end
 exports('usePanning', usePanning)
+
+lib.callback.register('mt_goldpanning:client:checkCanPan', function()
+    if IsPedSwimming(cache.ped) then return false end
+    if not IsEntityInWater(cache.ped) then return false end
+    if not panning then return false end
+    return true
+end)

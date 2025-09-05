@@ -1,0 +1,16 @@
+{
+    "error": {
+        "swimming": "You can't pan for gold while swimming...",
+        "not_in_water": "You can't pan for gold if you're not in water...",
+        "minigame_failed": "You failed the minigame...",
+        "broken_tool": "Your pan is too worn out...",
+        "canceled": "Canceled.",
+        "inventory_full": "Your inventory is full..."
+    },
+    "success": {
+        "received": "You received the items"
+    },
+    "progress": {
+        "panning": "Panning..."
+    }
+}

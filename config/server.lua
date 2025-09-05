@@ -1,8 +1,6 @@
 return {
-    ---@type number Cooldown per location in minutes
-    cooldown = 2,
     ---@type number Durability percentage lost per uses
-    durabilityPerUser = 1,
+    durabilityPerUse = 1,
 
     ---@type string Item required to use gold panning
     panningItem = 'goldpan',

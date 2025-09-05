@@ -44,9 +44,10 @@ lib.callback.register('mt_goldpanning:server:giveReward', function(source, slot)
     local src = source
     local item = utils.getItemBySlot(src, slot)
 
-    if not (item and item.name == config.panningItem) then
-        return false
-    end
+    local canPan = lib.callback.await('mt_goldpanning:client:checkCanPan', src)
+    if not canPan then return false end
+
+    if not (item and item.name == config.panningItem) then return false end
 
     if item.metadata and item.metadata.durability then
         if item.metadata.durability <= 0 then
@@ -54,7 +55,7 @@ lib.callback.register('mt_goldpanning:server:giveReward', function(source, slot)
             return false
         end
 
-        local newDurability = item.metadata.durability - 1
+        local newDurability = item.metadata.durability - config.durabilityPerUse
         if newDurability <= 0 then
             utils.removeItem(src, item.name, slot)
             return false
