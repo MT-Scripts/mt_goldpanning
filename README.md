@@ -13,7 +13,7 @@ BZzZ Mining props V2 (optional)
 Just add these items in the ox_inventory/data/items.lua
 ```lua
 	['goldpan'] = {
-		label = 'Peneira',
+		label = 'Gold pan',
 		weight = 2000,
 		stack = false,
 		client = {
