@@ -1,0 +1,16 @@
+{
+    "error": {
+        "swimming": "Não podes peneirar enquanto estás a nadar...",
+        "not_in_water": "Não podes peneirar se não estiveres na água...",
+        "minigame_failed": "Falhaste o minigame...",
+        "broken_tool": "A tua peneira está muito gasta...",
+        "canceled": "Cancelado.",
+        "inventory_full": "O teu inventário está cheio..."
+    },
+    "success": {
+        "received": "Recebeste os items"
+    },
+    "progress": {
+        "panning": "A peneirar..."
+    }
+}
