@@ -48,7 +48,6 @@ lib.callback.register('mt_goldpanning:server:giveReward', function(source, slot)
         return false
     end
 
-    lib.print.info(item.metadata)
     if item.metadata and item.metadata.durability then
         if item.metadata.durability <= 0 then
             utils.removeItem(src, item.name, slot)
@@ -56,7 +55,6 @@ lib.callback.register('mt_goldpanning:server:giveReward', function(source, slot)
         end
 
         local newDurability = item.metadata.durability - 1
-        print(newDurability)
         if newDurability <= 0 then
             utils.removeItem(src, item.name, slot)
             return false
