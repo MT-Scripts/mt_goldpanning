@@ -54,7 +54,7 @@ RegisterNetEvent('mt_goldpanning:server:giveReward', function(slot)
 
     if cooldowns[src] and (now - cooldowns[src]) < COOLDOWN_SECONDS then return end
 
-    if locationCooldowns[locKey] and (now - locationCooldowns[locKey]) < (config.locationCooldown * 60) then
+    if locationCooldowns[locKey] and (now - locationCooldowns[locKey]) < (config.locationCooldown * 1000 * 60) then
         utils.notify(locale('error.location_cooldown'), 'error')
         return
     end
